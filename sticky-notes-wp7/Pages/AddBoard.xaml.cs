@@ -40,7 +40,7 @@ namespace StickyNotes.Pages
             this.OnlineRepository.BoardsSave(this.SettingsManager.SessionToken, this.CurrentBoard, (response) => {
                 if (response.code != 201)
                 {
-                    MessageBox.Show("Unable to create board!");
+                    MessageBox.Show("Unable to create board!", "Error", MessageBoxButton.OK);
                 }
                 else
                 {

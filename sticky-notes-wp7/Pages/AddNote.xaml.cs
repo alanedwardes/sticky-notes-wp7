@@ -84,8 +84,16 @@ namespace StickyNotes.Views
                 if (this.currentBoard != null)
                 {
                     this.PageLoading = true;
-                    this.OnlineRepository.NotesSave(this.SettingsManager.SessionToken, this.currentNote, this.currentBoard.Id, (reaponse) => {
-                        NavigationService.Navigate(new Uri(string.Format("/Pages/NoteList.xaml?boardId={0}", this.currentBoard.Id), UriKind.Relative));
+                    this.OnlineRepository.NotesSave(this.SettingsManager.SessionToken, this.currentNote, this.currentBoard.Id, (reaponse) =>
+                    {
+                        if (reaponse.WasSuccessful())
+                        {
+                            NavigationService.Navigate(new Uri(string.Format("/Pages/NoteList.xaml?boardId={0}", this.currentBoard.Id), UriKind.Relative));
+                        }
+                        else
+                        {
+                            MessageBox.Show("Unable to add note to board.", "Error", MessageBoxButton.OK);
+                        }
                         this.PageLoaded = true;
                     });
                 }
@@ -93,6 +101,10 @@ namespace StickyNotes.Views
                 {
                     NavigationService.Navigate(new Uri("/Pages/NoteList.xaml", UriKind.Relative));
                 }
+            }
+            else
+            {
+                MessageBox.Show("Please enter some note text.", "Error", MessageBoxButton.OK);
             }
         }
 
