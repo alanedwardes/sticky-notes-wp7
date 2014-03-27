@@ -12,9 +12,13 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True"
-    Loaded="PhoneApplicationPage_Loaded">
-
+    Loaded="PhoneApplicationPage_Loaded"
+    shell:SystemTray.IsVisible="True">
+    
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator />
+    </shell:SystemTray.ProgressIndicator>
+    
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
             <shell:ApplicationBarIconButton
@@ -22,27 +26,31 @@
                 IconUri="/Assets/AddIcon.png"
                 Click="AddButton_Click"
                 Text="add board"/>
+            <shell:ApplicationBarIconButton
+                x:Name="NotesOnPhoneButton"
+                IconUri="/Assets/PhoneIcon.png"
+                Click="NotesOnPhoneButton_Click"
+                Text="notes on phone"/>
+            <shell:ApplicationBarIconButton
+                x:Name="SettingsButton"
+                IconUri="/Assets/SettingsIcon.png"
+                Click="SettingsButton_Click"
+                Text="settings"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
-    <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource SNBackgroundBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
             <TextBlock Text="STICKY NOTES" Style="{StaticResource PhoneTextNormalStyle}"/>
             <TextBlock Text="boards" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
-
-        <!--ContentPanel - place additional content here-->
+        
         <TextBox
             GotFocus="SearchBox_GotFocus"
             KeyUp="SearchBox_KeyUp"
@@ -53,44 +61,12 @@
             VerticalAlignment="Center"
             Text="Search boards..."
             Grid.Row="1"/>
-        
-        <ProgressBar x:Name="LoadingProgress"
-            IsIndeterminate="False"
-            Height="10"
-            Margin="12, 0"
-            Foreground="{StaticResource PhoneForegroundBrush}"
-            Grid.Row="2"/>
-
-        <Button
-            Grid.Row="3"
-            FontSize="{Binding SettingsManager.CaptionTextSize}"
-            Tap="NotesOnPhoneButtonTap"
-            Margin="12, 0">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <Image
-                        Height="40"
-                        Width="40"
-                        Source="/Assets/PhoneIcon.png"></Image>
-                    <TextBlock
-                        Margin="4, 0, 0, 0"
-                        Text="my notes"
-                        VerticalAlignment="Center"/>
-                </StackPanel>
-            </Button.Content>
-        </Button>
-
-        <TextBlock
-                Margin="24, 0, 24, 12"
-                Grid.Row="4"
-                FontSize="{Binding SettingsManager.CaptionTextSize}"
-                Text="boards shared with me"/>
 
         <ListBox HorizontalContentAlignment="Stretch"
                  HorizontalAlignment="Stretch"
                  Foreground="Black"
                  ItemsSource="{Binding Boards}"
-                 Grid.Row="5"
+                 Grid.Row="3"
                  x:Name="boardList"
                  Margin="24, 0, 24, 24">
             <ListBox.ItemTemplate>

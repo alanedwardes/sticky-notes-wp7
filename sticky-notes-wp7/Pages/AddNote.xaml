@@ -13,6 +13,11 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
+
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator />
+    </shell:SystemTray.ProgressIndicator>
+
     <Grid x:Name="LayoutRoot" Background="{StaticResource SNBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -34,11 +39,13 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBox
+                IsEnabled="{Binding PageLoaded}"
                 Name="NoteTitle"
                 KeyDown="NoteTitle_KeyDown"
                 FontSize="{Binding SettingsManager.TextSize}"
                 Text="{Binding CurrentNote.Title, Mode=TwoWay}" />
             <TextBox
+                IsEnabled="{Binding PageLoaded}"
                 Name="NoteBody"
                 VerticalAlignment="Stretch"
                 FontSize="{Binding SettingsManager.TextSize}"
@@ -48,6 +55,7 @@
                 Text="{Binding CurrentNote.Body, Mode=TwoWay}"
                 Grid.Row="1"/>
             <Button
+                IsEnabled="{Binding PageLoaded}"
                 x:Name="SaveNote"
                 FontSize="{Binding SettingsManager.CaptionTextSize}"
                 Content="Save"

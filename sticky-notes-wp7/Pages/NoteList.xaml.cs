@@ -57,7 +57,7 @@ namespace StickyNotes
                 this.filterBoard = this.LocalRepository.GetBoard(int.Parse(boardId));
 
                 // Refresh notes
-                IsLoadingData = true;
+                PageLoading = true;
                 this.OnlineRepository.NotesList(this.SettingsManager.SessionToken, this.filterBoard.Id, (notesResponse) => {
                     if (notesResponse.WasSuccessful())
                     {
@@ -70,10 +70,11 @@ namespace StickyNotes
                         }
 
                         this.LocalRepository.Commit();
-                    } 
-                });
+                        this.RefreshNotes();
+                    }
 
-                IsLoadingData = false;
+                    PageLoading = false;
+                });
             }
             else
             {

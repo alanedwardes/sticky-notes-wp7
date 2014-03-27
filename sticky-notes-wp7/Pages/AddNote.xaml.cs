@@ -83,8 +83,10 @@ namespace StickyNotes.Views
 
                 if (this.currentBoard != null)
                 {
+                    this.PageLoading = true;
                     this.OnlineRepository.NotesSave(this.SettingsManager.SessionToken, this.currentNote, this.currentBoard.Id, (reaponse) => {
                         NavigationService.Navigate(new Uri(string.Format("/Pages/NoteList.xaml?boardId={0}", this.currentBoard.Id), UriKind.Relative));
+                        this.PageLoaded = true;
                     });
                 }
                 else

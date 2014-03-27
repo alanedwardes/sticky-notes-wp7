@@ -36,6 +36,7 @@ namespace StickyNotes.Pages
 
         private void AddBoardButton_Click(object sender, RoutedEventArgs e)
         {
+            this.PageLoading = true;
             this.OnlineRepository.BoardsSave(this.SettingsManager.SessionToken, this.CurrentBoard, (response) => {
                 if (response.code != 201)
                 {
@@ -45,6 +46,8 @@ namespace StickyNotes.Pages
                 {
                     NavigationService.Navigate(new Uri("/Pages/BoardList.xaml", UriKind.Relative));
                 }
+
+                this.PageLoaded = true;
             });
         }
     }

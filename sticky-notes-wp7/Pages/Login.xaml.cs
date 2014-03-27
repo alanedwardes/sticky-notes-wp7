@@ -30,12 +30,11 @@ namespace StickyNotes
         {
             var loginButton = sender as Button;
 
-            loginProgress.IsIndeterminate = true;
+            PageLoading = true;
             loginButton.IsEnabled = false;
 
             this.OnlineRepository.UserLogin(this.username.Text, this.password.Password, (response) => {
-                loginButton.IsEnabled = true;
-                loginProgress.IsIndeterminate = false;
+                PageLoading = false;
 
                 if (response.WasSuccessful())
                 {

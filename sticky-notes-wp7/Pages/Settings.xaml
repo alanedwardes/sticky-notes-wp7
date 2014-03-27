@@ -14,6 +14,10 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
 
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator />
+    </shell:SystemTray.ProgressIndicator>
+
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource SNBackgroundBrush}">
         <Grid.RowDefinitions>
@@ -43,6 +47,7 @@
                 </Border>
                 <Slider
                     Foreground="White"
+                    Height="100"
                     Background="{StaticResource SNTranslucentBackgroundBrush}"
                     Minimum="{Binding SettingsManager.MinTextSize, Mode=TwoWay}"
                     Maximum="{Binding SettingsManager.MaxTextSize, Mode=TwoWay}"

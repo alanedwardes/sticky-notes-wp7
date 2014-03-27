@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using StickyNotes.Services;
 using StickyNotes.Data;
-using Microsoft.Phone.Net.NetworkInformation;
 
 namespace StickyNotes
 {
@@ -81,55 +80,24 @@ namespace StickyNotes
             if (this.SettingsManager.SessionToken == null)
             {
                 NavigationService.Navigate(new Uri("/Pages/Login.xaml?redirectTo=/Pages/BoardList.xaml", UriKind.Relative));
-            }
-
-            var available = DeviceNetworkInformation.IsNetworkAvailable;
-            if (!available)
-            {
                 return;
             }
 
-            LoadingProgress.IsIndeterminate = true;
-
+            PageLoading = true;
             this.OnlineRepository.BoardsList(this.SettingsManager.SessionToken, (boardsResponse) => {
-                if (!boardsResponse.WasSuccessful())
+                if (boardsResponse.WasSuccessful() && boardsResponse.data.boards != null)
                 {
-                    LoadingProgress.IsIndeterminate = false;
-                    return;
+                    this.LocalRepository.ClearBoard();
+                    this.LocalRepository.StoreBoard(boardsResponse.data.boards);
+                    this.LocalRepository.Commit();
+                    this.RefreshBoards();
                 }
 
-                if (boardsResponse.data.boards == null)
-                {
-                    LoadingProgress.IsIndeterminate = false;
-                    return;
-                }
-
-                this.LocalRepository.ClearBoard();
-                this.LocalRepository.StoreBoard(boardsResponse.data.boards);
-
-                foreach (var board in boardsResponse.data.boards)
-                {
-                    this.OnlineRepository.NotesList(SettingsManager.SessionToken, board.Id, (notesResponse) => {
-                        if (notesResponse.WasSuccessful())
-                        {
-                            foreach (var note in notesResponse.data.notes)
-                            {
-                                var notesToDelete = this.LocalRepository.GetNote().Where(n => n.BoardId == board.Id).ToList();
-                                this.LocalRepository.ClearNote(notesToDelete);
-                                this.LocalRepository.StoreNote(note);
-                            }
-                        }
-                    });
-                }
-
-                this.LocalRepository.Commit();
-                this.RefreshBoards();
-
-                LoadingProgress.IsIndeterminate = false;
+                this.PageLoaded = true;
             });
         }
 
-        private void NotesOnPhoneButtonTap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void NotesOnPhoneButton_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Pages/NoteList.xaml", UriKind.Relative));
         }
@@ -137,6 +105,11 @@ namespace StickyNotes
         private void AddButton_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Pages/AddBoard.xaml", UriKind.Relative));
+        }
+
+        private void SettingsButton_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/Settings.xaml", UriKind.Relative));
         }
     }
 }

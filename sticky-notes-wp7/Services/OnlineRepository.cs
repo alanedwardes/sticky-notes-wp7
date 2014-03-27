@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-//using System.Threading.Tasks;
 using System.Net;
-//using System.Net.Http;
 using System.IO;
 using Newtonsoft.Json;
 using StickyNotes.Data;
+using System.Threading;
+using Microsoft.Phone.Net.NetworkInformation;
 
 namespace StickyNotes.Services
 {
@@ -99,6 +99,12 @@ namespace StickyNotes.Services
 
         public static void HttpPost<T>(string apiMethod, Dictionary<string, string> parameters, Action<RepositoryResponse<T>> action)
         {
+            var available = DeviceNetworkInformation.IsNetworkAvailable;
+            if (!available)
+            {
+                action.Invoke(new RepositoryResponse<T> { code = (int)HttpStatusCode.RequestTimeout });
+            }
+
             var data = DictionaryToQueryString(parameters);
 
             var webClient = new WebClient();

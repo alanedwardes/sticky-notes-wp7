@@ -14,6 +14,10 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
 
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator />
+    </shell:SystemTray.ProgressIndicator>
+
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
             <shell:ApplicationBarIconButton
@@ -39,7 +43,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -60,13 +63,6 @@
             VerticalAlignment="Center"
             Text="Search notes..."
             Grid.Row="1"/>
-        
-        <ProgressBar
-            IsIndeterminate="{Binding IsLoadingData}"
-            Height="10"
-            Margin="12, 0"
-            Foreground="{StaticResource PhoneForegroundBrush}"
-            Grid.Row="2"/>
         
         <ListBox HorizontalContentAlignment="Stretch"
                  HorizontalAlignment="Stretch"
