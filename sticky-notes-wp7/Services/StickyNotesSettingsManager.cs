@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-//using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-
-namespace StickyNotes.Services
+﻿namespace StickyNotes.Services
 {
+    using System.ComponentModel;
+
     public class StickyNotesSettingsManager: INotifyPropertyChanged
     {
         private const string SESSION_TOKEN = "session_token";

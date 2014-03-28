@@ -15,9 +15,9 @@
     shell:SystemTray.IsVisible="True">
 
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator />
+        <shell:ProgressIndicator IsIndeterminate="True" Text="Logging in..." IsVisible="{Binding OnlineRepository.IsLoading}"/>
     </shell:SystemTray.ProgressIndicator>
-
+    
     <Grid x:Name="LayoutRoot" Background="{StaticResource SNBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" MinHeight="444"/>
@@ -35,7 +35,7 @@
                 Margin="12,4"
                 Text="email address"/>
             <TextBox
-                IsEnabled="{Binding PageLoaded}"
+                IsEnabled="{Binding OnlineRepository.HasLoaded}"
                 FontSize="{Binding SettingsManager.CaptionTextSize}"
                 x:Name="username"
                 Text="test@example.com"/>
@@ -44,15 +44,20 @@
                 Margin="12,4"
                 Text="password"/>
             <PasswordBox
-                IsEnabled="{Binding PageLoaded}"
+                IsEnabled="{Binding OnlineRepository.HasLoaded}"
                 x:Name="password"
                 FontSize="{Binding SettingsManager.CaptionTextSize}"
                 Password="password"/>
             <Button
-                IsEnabled="{Binding PageLoaded}"
+                IsEnabled="{Binding OnlineRepository.HasLoaded}"
                 Content="login"
                 FontSize="{Binding SettingsManager.CaptionTextSize}"
-                Click="Button_Click" />
+                Click="LogonButton_Click" />
+            <Button
+                IsEnabled="{Binding OnlineRepository.HasLoaded}"
+                Content="register"
+                FontSize="{Binding SettingsManager.CaptionTextSize}"
+                Click="RegisterButton_Click" />
         </StackPanel>
     </Grid>
 </pages:BaseStickyNotesPage>

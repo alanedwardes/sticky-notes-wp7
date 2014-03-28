@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using System.Data.Linq;
-using System.Data.Linq.Mapping;
-using Microsoft.Phone.Data.Linq;
-using Microsoft.Phone.Data.Linq.Mapping;
-
-namespace StickyNotes.Data
+﻿namespace StickyNotes.Data
 {
+    using System.Data.Linq;
+
     public class StickyNotesDataContext : DataContext
     {
         public const string DBConnectionString = "Data Source=isostore:/StickyNotes.sdf";

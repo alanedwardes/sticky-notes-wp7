@@ -14,7 +14,7 @@
     shell:SystemTray.IsVisible="True">
 
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator />
+        <shell:ProgressIndicator IsIndeterminate="True" Text="Saving user..." IsVisible="{Binding OnlineRepository.IsLoading}"/>
     </shell:SystemTray.ProgressIndicator>
 
     <!--LayoutRoot is the root grid where all page content is placed-->

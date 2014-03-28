@@ -15,7 +15,7 @@
     shell:SystemTray.IsVisible="True">
 
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator />
+        <shell:ProgressIndicator IsIndeterminate="True" Text="Saving board..." IsVisible="{Binding OnlineRepository.IsLoading}"/>
     </shell:SystemTray.ProgressIndicator>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -38,13 +38,13 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBox
-                IsEnabled="{Binding PageLoaded}"
+                IsEnabled="{Binding OnlineRepository.HasLoaded}"
                 Grid.Row="0"
                 MaxLength="25"
                 Text="{Binding CurrentBoard.Name, Mode=TwoWay}"
                 FontSize="{Binding SettingsManager.TextSize}" />
             <Button
-                IsEnabled="{Binding PageLoaded}"
+                IsEnabled="{Binding OnlineRepository.HasLoaded}"
                 Grid.Row="1"
                 x:Name="AddBoardButton"
                 Click="AddBoardButton_Click"

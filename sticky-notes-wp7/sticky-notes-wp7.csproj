@@ -68,6 +68,7 @@
     <Compile Include="Data\Board.cs" />
     <Compile Include="Data\Note.cs" />
     <Compile Include="Data\StickyNotesDataContext.cs" />
+    <Compile Include="Data\User.cs" />
     <Compile Include="Pages\AddBoard.xaml.cs">
       <DependentUpon>AddBoard.xaml</DependentUpon>
     </Compile>
@@ -86,6 +87,9 @@
     </Compile>
     <Compile Include="Pages\NoteList.xaml.cs">
       <DependentUpon>NoteList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Register.xaml.cs">
+      <DependentUpon>Register.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -126,6 +130,10 @@
     <Page Include="Pages\NoteList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Register.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Settings.xaml">
       <Generator>MSBuild:Compile</Generator>

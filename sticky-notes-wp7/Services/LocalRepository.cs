@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-//using System.Threading.Tasks;
-using StickyNotes.Services;
-using StickyNotes.Data;
-
-namespace StickyNotes.Services
+﻿namespace StickyNotes.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using StickyNotes.Data;
+
     public class LocalRepository
     {
         private StickyNotesDataContext dataContext;

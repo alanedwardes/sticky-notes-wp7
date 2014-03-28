@@ -15,7 +15,7 @@
     shell:SystemTray.IsVisible="True">
 
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator />
+        <shell:ProgressIndicator IsIndeterminate="True" Text="Saving note to board..." IsVisible="{Binding OnlineRepository.IsLoading}"/>
     </shell:SystemTray.ProgressIndicator>
 
     <Grid x:Name="LayoutRoot" Background="{StaticResource SNBackgroundBrush}">
@@ -39,13 +39,13 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBox
-                IsEnabled="{Binding PageLoaded}"
+                IsEnabled="{Binding OnlineRepository.HasLoaded}"
                 Name="NoteTitle"
                 KeyDown="NoteTitle_KeyDown"
                 FontSize="{Binding SettingsManager.TextSize}"
                 Text="{Binding CurrentNote.Title, Mode=TwoWay}" />
             <TextBox
-                IsEnabled="{Binding PageLoaded}"
+                IsEnabled="{Binding OnlineRepository.HasLoaded}"
                 Name="NoteBody"
                 VerticalAlignment="Stretch"
                 FontSize="{Binding SettingsManager.TextSize}"
@@ -55,7 +55,7 @@
                 Text="{Binding CurrentNote.Body, Mode=TwoWay}"
                 Grid.Row="1"/>
             <Button
-                IsEnabled="{Binding PageLoaded}"
+                IsEnabled="{Binding OnlineRepository.HasLoaded}"
                 x:Name="SaveNote"
                 FontSize="{Binding SettingsManager.CaptionTextSize}"
                 Content="Save"

@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-
-using StickyNotes.Data;
-using StickyNotes.Services;
-using StickyNotes.Pages;
-
-namespace StickyNotes
+﻿namespace StickyNotes
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Navigation;
+    using StickyNotes.Data;
+    using StickyNotes.Pages;
+
     public partial class NoteList : BaseStickyNotesPage
     {
         private bool isLoadingData;
@@ -57,7 +49,6 @@ namespace StickyNotes
                 this.filterBoard = this.LocalRepository.GetBoard(int.Parse(boardId));
 
                 // Refresh notes
-                PageLoading = true;
                 this.OnlineRepository.NotesList(this.SettingsManager.SessionToken, this.filterBoard.Id, (notesResponse) => {
                     if (notesResponse.WasSuccessful())
                     {
@@ -72,8 +63,6 @@ namespace StickyNotes
                         this.LocalRepository.Commit();
                         this.RefreshNotes();
                     }
-
-                    PageLoading = false;
                 });
             }
             else

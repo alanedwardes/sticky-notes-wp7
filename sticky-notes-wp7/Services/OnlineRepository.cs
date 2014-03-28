@@ -1,30 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using System.IO;
-using Newtonsoft.Json;
-using StickyNotes.Data;
-using System.Threading;
-using Microsoft.Phone.Net.NetworkInformation;
-
-namespace StickyNotes.Services
+﻿namespace StickyNotes.Services
 {
-    public class OnlineRepository
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Net;
+    using System.Text;
+    using Microsoft.Phone.Net.NetworkInformation;
+    using Newtonsoft.Json;
+    using StickyNotes.Data;
+
+    public class OnlineRepository : INotifyPropertyChanged
     {
-        struct APIMethods
+        struct API
         {
             public struct User
             {
+                public const string Save = "user/register";
                 public const string Login = "user/login";
+                public const string Get = "user/getUser";
             }
-            public struct Boards
+            public struct Board
             {
                 public const string List = "boards/list";
                 public const string Save = "boards/save";
             }
-            public struct Notes
+            public struct Note
             {
                 public const string List = "notes/list";
                 public const string Save = "notes/save";
@@ -37,35 +37,27 @@ namespace StickyNotes.Services
             public string created;
         }
 
-        public class User
-        {
-            public int id;
-            public string firstName;
-            public string surname;
-            public string email;
-            public string password;
-        }
-
-        public class LoginResponse
+        public class UserLoginResponse
         {
             public User user;
             public Session session;
         }
+
+        public class UserSaveResponse : User { }
+
+        public class UserGetResponse : User { }
 
         public class NotesListResponse
         {
             public List<Note> notes;
         }
 
-        public class NotesSaveResponse : Note
-        {
-
-        }
+        public class NotesSaveResponse : Note { }
 
         public class RepositoryResponse<T>
         {
-            public int code;
-            public bool WasSuccessful() { return (code >= 200 && code < 300); }
+            public HttpStatusCode code;
+            public bool WasSuccessful() { return ((int)code >= 200 && (int)code < 300); }
             public T data;
         }
 
@@ -79,9 +71,18 @@ namespace StickyNotes.Services
 
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         const string ENDPOINT = "http://stickyapi.alanedwardes.com/";
 
-        public static string DictionaryToQueryString(Dictionary<string, string> dictionary)
+        public string DictionaryToQueryString(Dictionary<string, string> dictionary)
         {
             var stringBuilder = new StringBuilder();
             bool isFirst = true;
@@ -97,17 +98,37 @@ namespace StickyNotes.Services
             return stringBuilder.ToString();
         }
 
-        public static void HttpPost<T>(string apiMethod, Dictionary<string, string> parameters, Action<RepositoryResponse<T>> action)
+        public bool HasLoaded
         {
-            var available = DeviceNetworkInformation.IsNetworkAvailable;
-            if (!available)
+            get { return !IsLoading; }
+        }
+
+        private bool isLoading;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            private set
             {
-                action.Invoke(new RepositoryResponse<T> { code = (int)HttpStatusCode.RequestTimeout });
+                isLoading = value;
+                NotifyPropertyChanged("IsLoading");
+                NotifyPropertyChanged("HasLoaded");
+            }
+        }
+
+        public void HttpPost<T>(string apiMethod, Dictionary<string, string> parameters, Action<RepositoryResponse<T>> action)
+        {
+            if (!DeviceNetworkInformation.IsNetworkAvailable)
+            {
+                action.Invoke(new RepositoryResponse<T> { code = HttpStatusCode.RequestTimeout });
+                return;
             }
 
-            var data = DictionaryToQueryString(parameters);
+            this.IsLoading = true;
+
+            var data = this.DictionaryToQueryString(parameters);
 
             var webClient = new WebClient();
+
             var timeoutTimer = new System.Windows.Threading.DispatcherTimer();
             timeoutTimer.Interval = new TimeSpan(0, 0, 2);
             timeoutTimer.Tick += new EventHandler((sender, e) => webClient.CancelAsync());
@@ -116,6 +137,8 @@ namespace StickyNotes.Services
             webClient.Encoding = Encoding.UTF8;
             webClient.UploadStringCompleted += (object sender, UploadStringCompletedEventArgs e) =>
             {
+                this.IsLoading = false;
+
                 timeoutTimer.Stop();
 
                 var repositoryResponse = new RepositoryResponse<T>();
@@ -127,7 +150,7 @@ namespace StickyNotes.Services
 
                 if (e.Cancelled)
                 {
-                    repositoryResponse.code = (int)HttpStatusCode.RequestTimeout;
+                    repositoryResponse.code = HttpStatusCode.RequestTimeout;
                 }
                 else if (e.Error != null)
                 {
@@ -136,18 +159,18 @@ namespace StickyNotes.Services
                     {
                         if (response == null)
                         {
-                            repositoryResponse.code = (int)HttpStatusCode.RequestTimeout;
+                            repositoryResponse.code = HttpStatusCode.RequestTimeout;
                         }
                         else
                         {
-                            repositoryResponse.code = (int)response.StatusCode;
+                            repositoryResponse.code = response.StatusCode;
                         }
                     }
                 }
                 else
                 {
                     repositoryResponse.data = JsonConvert.DeserializeObject<T>(e.Result, serialiserSettings);
-                    repositoryResponse.code = (int)HttpStatusCode.OK;
+                    repositoryResponse.code = HttpStatusCode.OK;
                 }
 
                 action.Invoke(repositoryResponse);
@@ -156,45 +179,70 @@ namespace StickyNotes.Services
             timeoutTimer.Start();
         }
 
-        public void UserLogin(string username, string password, Action<RepositoryResponse<LoginResponse>> action)
+        public void UserLogin(User user, Action<RepositoryResponse<UserLoginResponse>> action)
         {
-            var data = new Dictionary<string, string>();
-            data.Add("username", username);
-            data.Add("password", password);
-            HttpPost<LoginResponse>(APIMethods.User.Login, data, action);
+            this.HttpPost<UserLoginResponse>(API.User.Login, new Dictionary<string, string> {
+                { "username", user.Email },
+                { "password", user.Password }
+            }, action);
+        }
+
+        public void UserLogin(string username, string password, Action<RepositoryResponse<UserLoginResponse>> action)
+        {
+            this.HttpPost<UserLoginResponse>(API.User.Login, new Dictionary<string, string> {
+                { "username", username },
+                { "password", password }
+            }, action);
+        }
+
+        public void UserGet(string token, Action<RepositoryResponse<UserGetResponse>> action)
+        {
+            this.HttpPost<UserGetResponse>(API.User.Get, new Dictionary<string, string> {
+                { "token", token }
+            }, action);
+        }
+
+        public void UserSave(User newUser, Action<RepositoryResponse<UserSaveResponse>> action)
+        {
+            this.HttpPost<UserSaveResponse>(API.User.Save, new Dictionary<string, string> {
+                { "firstName", newUser.FirstName },
+                { "surname", newUser.Surname },
+                { "email", newUser.Email },
+                { "password", newUser.Password }
+            }, action);
         }
 
         public void BoardsList(string token, Action<RepositoryResponse<BoardsListResponse>> action)
         {
-            var data = new Dictionary<string, string>();
-            data.Add("token", token);
-            HttpPost<BoardsListResponse>(APIMethods.Boards.List, data, action);
+            this.HttpPost<BoardsListResponse>(API.Board.List, new Dictionary<string, string> {
+                { "token", token }
+            }, action);
         }
 
         public void NotesList(string token, int boardId, Action<RepositoryResponse<NotesListResponse>> action)
         {
-            var data = new Dictionary<string, string>();
-            data.Add("token", token);
-            data.Add("boardID", boardId.ToString());
-            HttpPost<NotesListResponse>(APIMethods.Notes.List, data, action);
+            this.HttpPost<NotesListResponse>(API.Note.List, new Dictionary<string, string> {
+                { "token", token },
+                { "boardID", boardId.ToString() }
+            }, action);
         }
 
         public void NotesSave(string token, Note note, int boardId, Action<RepositoryResponse<NotesSaveResponse>> action)
         {
-            var data = new Dictionary<string, string>();
-            data.Add("token", token);
-            data.Add("title", note.Title);
-            data.Add("body", note.Body);
-            data.Add("boardID", boardId.ToString());
-            HttpPost<NotesSaveResponse>(APIMethods.Notes.Save, data, action);
+            this.HttpPost<NotesSaveResponse>(API.Note.Save, new Dictionary<string, string> {
+                { "token", token },
+                { "title", note.Title },
+                { "body", note.Body },
+                { "boardID", boardId.ToString() }
+            }, action);
         }
 
         public void BoardsSave(string token, Board board, Action<RepositoryResponse<BoardsSaveResponse>> action)
         {
-            var data = new Dictionary<string, string>();
-            data.Add("token", token);
-            data.Add("name", board.Name);
-            HttpPost<BoardsSaveResponse>(APIMethods.Boards.Save, data, action);
+            this.HttpPost<BoardsSaveResponse>(API.Board.Save, new Dictionary<string, string> {
+                { "token", token },
+                { "name", board.Name }
+            }, action);
         }
     }
 }

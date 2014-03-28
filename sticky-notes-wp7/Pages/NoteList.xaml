@@ -15,7 +15,7 @@
     shell:SystemTray.IsVisible="True">
 
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator />
+        <shell:ProgressIndicator IsIndeterminate="True" Text="Loading notes in board..." IsVisible="{Binding OnlineRepository.IsLoading}"/>
     </shell:SystemTray.ProgressIndicator>
 
     <phone:PhoneApplicationPage.ApplicationBar>
@@ -62,6 +62,7 @@
             TextAlignment="Left"
             VerticalAlignment="Center"
             Text="Search notes..."
+            IsEnabled="{Binding OnlineRepository.HasLoaded}"
             Grid.Row="1"/>
         
         <ListBox HorizontalContentAlignment="Stretch"

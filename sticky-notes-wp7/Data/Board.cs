@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-//using System.Threading.Tasks;
-using System.ComponentModel;
-
-using System.Data.Linq;
-using System.Data.Linq.Mapping;
-using Microsoft.Phone.Data.Linq;
-using Microsoft.Phone.Data.Linq.Mapping;
-
-namespace StickyNotes.Data
+﻿namespace StickyNotes.Data
 {
+    using System.ComponentModel;
+    using System.Data.Linq.Mapping;
+
     [Table]
     public class Board : INotifyPropertyChanged
     {

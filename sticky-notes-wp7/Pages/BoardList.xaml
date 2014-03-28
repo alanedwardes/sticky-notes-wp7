@@ -14,11 +14,11 @@
     mc:Ignorable="d"
     Loaded="PhoneApplicationPage_Loaded"
     shell:SystemTray.IsVisible="True">
-    
+
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator />
+        <shell:ProgressIndicator IsIndeterminate="True" Text="Loading boards..." IsVisible="{Binding OnlineRepository.IsLoading}"/>
     </shell:SystemTray.ProgressIndicator>
-    
+
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
             <shell:ApplicationBarIconButton
@@ -60,6 +60,7 @@
             FontSize="{Binding SettingsManager.CaptionTextSize}"
             VerticalAlignment="Center"
             Text="Search boards..."
+            IsEnabled="{Binding OnlineRepository.HasLoaded}"
             Grid.Row="1"/>
 
         <ListBox HorizontalContentAlignment="Stretch"

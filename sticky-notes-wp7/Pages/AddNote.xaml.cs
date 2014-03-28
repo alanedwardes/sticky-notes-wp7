@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-using System.Windows.Input;
-using System.ComponentModel;
-using StickyNotes.Data;
-using StickyNotes.Services;
-
-namespace StickyNotes.Views
+﻿namespace StickyNotes.Views
 {
+    using System;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Navigation;
+    using System.Windows.Input;
+    using StickyNotes.Data;
     using StickyNotes.Pages;
 
     public partial class AddNote : BaseStickyNotesPage
@@ -83,7 +75,6 @@ namespace StickyNotes.Views
 
                 if (this.currentBoard != null)
                 {
-                    this.PageLoading = true;
                     this.OnlineRepository.NotesSave(this.SettingsManager.SessionToken, this.currentNote, this.currentBoard.Id, (reaponse) =>
                     {
                         if (reaponse.WasSuccessful())
@@ -94,7 +85,6 @@ namespace StickyNotes.Views
                         {
                             MessageBox.Show("Unable to add note to board.", "Error", MessageBoxButton.OK);
                         }
-                        this.PageLoaded = true;
                     });
                 }
                 else

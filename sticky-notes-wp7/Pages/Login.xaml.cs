@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-//using StickyNotes.Resources;
-using StickyNotes.Services;
-
-using StickyNotes.Pages;
-
-namespace StickyNotes
+﻿namespace StickyNotes
 {
+    using System;
+    using System.Net;
+    using System.Windows;
+    using System.Windows.Navigation;
+    using StickyNotes.Pages;
+    using StickyNotes.Services;
+
     public partial class Login : BaseStickyNotesPage
     {
         private string redirectUri;
@@ -26,16 +17,9 @@ namespace StickyNotes
             InitializeDataContext();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void LogonButton_Click(object sender, RoutedEventArgs e)
         {
-            var loginButton = sender as Button;
-
-            PageLoading = true;
-            loginButton.IsEnabled = false;
-
             this.OnlineRepository.UserLogin(this.username.Text, this.password.Password, (response) => {
-                PageLoading = false;
-
                 if (response.WasSuccessful())
                 {
                     SaveUserTokenFromLoginResponse(response);
@@ -45,6 +29,11 @@ namespace StickyNotes
                     ShowMessageBasedOnResponseCode(response.code);
                 }
             });
+        }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/Register.xaml", UriKind.Relative));
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -58,11 +47,11 @@ namespace StickyNotes
             }
         }
 
-        private void ShowMessageBasedOnResponseCode(int code)
+        private void ShowMessageBasedOnResponseCode(System.Net.HttpStatusCode code)
         {
             switch (code)
             {
-                case 403:
+                case HttpStatusCode.Forbidden:
                     MessageBox.Show("Invalid username or password.", "Incorrect Credentials", MessageBoxButton.OK);
                     break;
                 default:
@@ -71,7 +60,7 @@ namespace StickyNotes
             }
         }
 
-        private void SaveUserTokenFromLoginResponse(OnlineRepository.RepositoryResponse<OnlineRepository.LoginResponse> response)
+        private void SaveUserTokenFromLoginResponse(OnlineRepository.RepositoryResponse<OnlineRepository.UserLoginResponse> response)
         {
             this.SettingsManager.SessionToken = response.data.session.id;
 

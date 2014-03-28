@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-using StickyNotes.Services;
-using StickyNotes.Data;
-
-namespace StickyNotes
+﻿namespace StickyNotes
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Navigation;
+    using StickyNotes.Data;
     using StickyNotes.Pages;
 
     public partial class BoardList : BaseStickyNotesPage
@@ -83,7 +75,6 @@ namespace StickyNotes
                 return;
             }
 
-            PageLoading = true;
             this.OnlineRepository.BoardsList(this.SettingsManager.SessionToken, (boardsResponse) => {
                 if (boardsResponse.WasSuccessful() && boardsResponse.data.boards != null)
                 {
@@ -92,8 +83,6 @@ namespace StickyNotes
                     this.LocalRepository.Commit();
                     this.RefreshBoards();
                 }
-
-                this.PageLoaded = true;
             });
         }
 

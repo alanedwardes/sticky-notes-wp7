@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-
-using StickyNotes.Data;
-using StickyNotes.Services;
-
-namespace StickyNotes.Pages
+﻿namespace StickyNotes.Pages
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Navigation;
+    using StickyNotes.Data;
+
     public partial class AddBoard : BaseStickyNotesPage
     {
         public AddBoard()
@@ -36,9 +28,8 @@ namespace StickyNotes.Pages
 
         private void AddBoardButton_Click(object sender, RoutedEventArgs e)
         {
-            this.PageLoading = true;
             this.OnlineRepository.BoardsSave(this.SettingsManager.SessionToken, this.CurrentBoard, (response) => {
-                if (response.code != 201)
+                if (!response.WasSuccessful())
                 {
                     MessageBox.Show("Unable to create board!", "Error", MessageBoxButton.OK);
                 }
@@ -46,8 +37,6 @@ namespace StickyNotes.Pages
                 {
                     NavigationService.Navigate(new Uri("/Pages/BoardList.xaml", UriKind.Relative));
                 }
-
-                this.PageLoaded = true;
             });
         }
     }
