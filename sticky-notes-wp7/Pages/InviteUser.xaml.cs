@@ -1,5 +1,6 @@
 ﻿namespace StickyNotes.Pages
 {
+    using System;
     using System.Net;
     using System.Windows;
     using System.Windows.Navigation;
@@ -37,10 +38,13 @@
         {
             this.OnlineRepository.BoardInvite(SettingsManager.SessionToken, this.Email, this.BoardId, (response) =>
             {
-                MessageBox.Show(response.code.ToString());
-                if (response.code == HttpStatusCode.BadRequest)
+                if (response.code != HttpStatusCode.Created)
                 {
-                    MessageBox.Show("User doesn't exist.", "Error", MessageBoxButton.OK);
+                    MessageBox.Show("There was an error adding the user to the board. The board may have been deleted, the user may not exist, or the user may already have been added the board.", "Error", MessageBoxButton.OK);
+                }
+                else
+                {
+                    NavigationService.Navigate(new Uri("/Pages/BoardList.xaml", UriKind.Relative));
                 }
             });
         }
