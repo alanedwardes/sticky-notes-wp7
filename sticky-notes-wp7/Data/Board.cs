@@ -3,10 +3,14 @@
     using System.ComponentModel;
     using System.Data.Linq.Mapping;
 
+    /// <summary>
+    /// Provides storage for Board objects, with component model events.
+    /// </summary>
     [Table]
     public class Board : INotifyPropertyChanged
     {
         private int localStorageId;
+
         [Column(IsPrimaryKey = true,
             IsDbGenerated = true,
             DbType = "INT NOT NULL Identity",
@@ -19,6 +23,7 @@
         }
 
         private int id;
+
         [Column(DbType = "INT")]
         public int Id
         {
@@ -27,6 +32,7 @@
         }
 
         private string name;
+
         [Column(DbType = "NVarChar(255) NOT NULL",
             CanBeNull = false)]
         public string Name
@@ -36,6 +42,7 @@
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)

@@ -1,4 +1,4 @@
-﻿<pages:BaseStickyNotesPage
+﻿<pages:BasePage
     xmlns:pages="clr-namespace:StickyNotes.Pages"
     x:Class="StickyNotes.Pages.Settings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -10,30 +10,35 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" mc:Ignorable="d"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="768"
+    d:DesignWidth="480">
 
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator IsIndeterminate="True" Text="Loading login status..." IsVisible="{Binding OnlineRepository.IsLoading}"/>
+        <shell:ProgressIndicator IsIndeterminate="True" Text="Loading login status..." IsVisible="{Binding OnlineRepository.IsLoading}" />
     </shell:SystemTray.ProgressIndicator>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource SNBackgroundBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="12, 17, 0, 28">
-            <TextBlock Text="STICKY NOTES" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="settings" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="STICKY NOTES" Style="{StaticResource PhoneTextNormalStyle}" />
+            <TextBlock Text="settings" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" />
         </StackPanel>
 
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="24, 12">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Border Margin="12, 0"
@@ -46,7 +51,7 @@
                     TextAlignment="Center"
                     Padding="12"
                     FontSize="{Binding SettingsManager.TextSize}"
-                    Text="Text Size"/>
+                    Text="Text Size" />
             </Border>
             <Slider
                 Grid.Row="1"
@@ -55,13 +60,26 @@
                 Background="{StaticResource SNTranslucentBackgroundBrush}"
                 Minimum="{Binding SettingsManager.MinTextSize, Mode=TwoWay}"
                 Maximum="{Binding SettingsManager.MaxTextSize, Mode=TwoWay}"
-                Value="{Binding SettingsManager.TextSize, Mode=TwoWay}"/>
-            <Border Grid.Row="2"/>
+                Value="{Binding SettingsManager.TextSize, Mode=TwoWay}" />
+            <Border Grid.Row="2" />
             <Button
+                FontSize="{Binding SettingsManager.CaptionTextSize}"
                 Grid.Row="3"
                 IsEnabled="{Binding IsLoggedIn}"
                 Click="Logout_Click"
-                Content="log out of account"/>
+                Content="log out of account" />
+            <Button
+                FontSize="{Binding SettingsManager.CaptionTextSize}"
+                Grid.Row="4"
+                IsEnabled="{Binding IsLoggedIn}"
+                Click="EditPassword_Click"
+                Content="edit account password" />
+            <Button
+                FontSize="{Binding SettingsManager.CaptionTextSize}"
+                Grid.Row="5"
+                IsEnabled="{Binding IsLoggedIn}"
+                Click="EditAccount_Click"
+                Content="edit account details" />
         </Grid>
     </Grid>
-</pages:BaseStickyNotesPage>
+</pages:BasePage>

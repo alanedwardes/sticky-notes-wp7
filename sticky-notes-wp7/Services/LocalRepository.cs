@@ -4,6 +4,10 @@
     using System.Linq;
     using StickyNotes.Data;
 
+    /// <summary>
+    /// Provides all specific implementation code for
+    /// writing, reading and deleting models.
+    /// </summary>
     public class LocalRepository
     {
         private StickyNotesDataContext dataContext;

@@ -1,4 +1,4 @@
-﻿<pages:BaseStickyNotesPage
+﻿<pages:BasePage
     xmlns:pages="clr-namespace:StickyNotes.Pages"
     x:Class="StickyNotes.BoardList"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -12,45 +12,45 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    Loaded="PhoneApplicationPage_Loaded"
-    shell:SystemTray.IsVisible="True">
+    Loaded="BasePage_Loaded"
+    shell:SystemTray.IsVisible="True" d:DesignHeight="696" d:DesignWidth="480">
 
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator IsIndeterminate="True" Text="Loading boards..." IsVisible="{Binding OnlineRepository.IsLoading}"/>
+        <shell:ProgressIndicator IsIndeterminate="True" Text="Loading boards..." IsVisible="{Binding OnlineRepository.IsLoading}" />
     </shell:SystemTray.ProgressIndicator>
 
-    <phone:PhoneApplicationPage.ApplicationBar>
+    <pages:BasePage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
             <shell:ApplicationBarIconButton
                 x:Name="AddButton"
                 IconUri="/Assets/AddIcon.png"
                 Click="AddButton_Click"
-                Text="add board"/>
+                Text="add board" />
             <shell:ApplicationBarIconButton
                 x:Name="NotesOnPhoneButton"
                 IconUri="/Assets/PhoneIcon.png"
                 Click="NotesOnPhoneButton_Click"
-                Text="notes on phone"/>
+                Text="notes on phone" />
             <shell:ApplicationBarIconButton
                 x:Name="SettingsButton"
                 IconUri="/Assets/SettingsIcon.png"
                 Click="SettingsButton_Click"
-                Text="settings"/>
+                Text="settings" />
         </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
+    </pages:BasePage.ApplicationBar>
 
     <Grid x:Name="LayoutRoot" Background="{StaticResource SNBackgroundBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="STICKY NOTES" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="boards" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="STICKY NOTES" Style="{StaticResource PhoneTextNormalStyle}" />
+            <TextBlock Text="boards" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" />
         </StackPanel>
-        
+
         <TextBox
             GotFocus="SearchBox_GotFocus"
             KeyUp="SearchBox_KeyUp"
@@ -61,7 +61,7 @@
             VerticalAlignment="Center"
             Text="Search boards..."
             IsEnabled="{Binding OnlineRepository.HasLoaded}"
-            Grid.Row="1"/>
+            Grid.Row="1" />
 
         <ListBox HorizontalContentAlignment="Stretch"
                  HorizontalAlignment="Stretch"
@@ -74,17 +74,18 @@
                 <DataTemplate>
                     <StackPanel Margin="0, 6, 0, 0" Background="{StaticResource SNNoteBackgroundBrush}" Orientation="Horizontal">
                         <Image
-                             Margin="12, 0, 0, 0"
-                             Height="40"
-                             Width="40"
-                             Source="/Assets/BoardIconInverse.png"></Image>
+                            Margin="12, 0, 0, 0"
+                            Height="40"
+                            Width="40"
+                            Source="/Assets/BoardIconInverse.png"></Image>
                         <TextBlock
                             Tap="TextBlock_Tap"
-                             Grid.Column="0"
-                             FontSize="{Binding ElementName=boardList, Path=DataContext.SettingsManager.TextSize}"
-                             TextWrapping="Wrap"
-                             Padding="12"
-                             Text="{Binding Name}"/>
+                            Hold="TextBlock_Hold"
+                            Grid.Column="0"
+                            FontSize="{Binding ElementName=boardList, Path=DataContext.SettingsManager.TextSize}"
+                            TextWrapping="Wrap"
+                            Padding="12"
+                            Text="{Binding Name}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -95,4 +96,4 @@
             </ListBox.ItemContainerStyle>
         </ListBox>
     </Grid>
-</pages:BaseStickyNotesPage>
+</pages:BasePage>

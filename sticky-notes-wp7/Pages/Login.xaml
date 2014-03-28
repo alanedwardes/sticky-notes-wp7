@@ -1,4 +1,4 @@
-﻿<pages:BaseStickyNotesPage
+﻿<pages:BasePage
     xmlns:pages="clr-namespace:StickyNotes.Pages"
     x:Class="StickyNotes.Login"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -12,42 +12,42 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" d:DesignHeight="768" d:DesignWidth="480">
 
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator IsIndeterminate="True" Text="Logging in..." IsVisible="{Binding OnlineRepository.IsLoading}"/>
+        <shell:ProgressIndicator IsIndeterminate="True" Text="Logging in..." IsVisible="{Binding OnlineRepository.IsLoading}" />
     </shell:SystemTray.ProgressIndicator>
-    
+
     <Grid x:Name="LayoutRoot" Background="{StaticResource SNBackgroundBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="444"/>
+            <RowDefinition Height="Auto" MinHeight="444" />
         </Grid.RowDefinitions>
-        
+
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,12,230">
-            <TextBlock Text="STICKY NOTES" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
+            <TextBlock Text="STICKY NOTES" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0" />
             <TextBlock Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}">
-            	<Run Text="login"/>
-            	<LineBreak/>
-            	<Run/>
+            	<Run Text="login" />
+            	<LineBreak />
+            	<Run />
             </TextBlock>
             <TextBlock
                 FontSize="{Binding SettingsManager.CaptionTextSize}"
                 Margin="12,4"
-                Text="email address"/>
+                Text="email address" />
             <TextBox
                 IsEnabled="{Binding OnlineRepository.HasLoaded}"
                 FontSize="{Binding SettingsManager.CaptionTextSize}"
                 x:Name="username"
-                Text="test@example.com"/>
+                Text="test@example.com" />
             <TextBlock
                 FontSize="{Binding SettingsManager.CaptionTextSize}"
                 Margin="12,4"
-                Text="password"/>
+                Text="password" />
             <PasswordBox
                 IsEnabled="{Binding OnlineRepository.HasLoaded}"
                 x:Name="password"
                 FontSize="{Binding SettingsManager.CaptionTextSize}"
-                Password="password"/>
+                Password="password" />
             <Button
                 IsEnabled="{Binding OnlineRepository.HasLoaded}"
                 Content="login"
@@ -60,4 +60,4 @@
                 Click="RegisterButton_Click" />
         </StackPanel>
     </Grid>
-</pages:BaseStickyNotesPage>
+</pages:BasePage>

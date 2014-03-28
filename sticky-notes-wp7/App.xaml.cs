@@ -20,7 +20,7 @@
         /// </summary>
         public App()
         {
-            // Global handler for uncaught exceptions. 
+            // Global handler for uncaught exceptions.
             UnhandledException += Application_UnhandledException;
 
             // Standard Silverlight initialization
@@ -44,7 +44,7 @@
                 // Show the areas of the app that are being redrawn in each frame.
                 //Application.Current.Host.Settings.EnableRedrawRegions = true;
 
-                // Enable non-production analysis visualization mode, 
+                // Enable non-production analysis visualization mode,
                 // which shows areas of a page that are handed off to GPU with a colored overlay.
                 //Application.Current.Host.Settings.EnableCacheVisualization = true;
 
@@ -54,7 +54,6 @@
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
-
         }
 
         // Code to execute when the application is launching (eg, from Start)
@@ -101,8 +100,6 @@
             }
         }
 
-        #region Phone application initialization
-
         // Avoid double-initialization
         private bool phoneApplicationInitialized = false;
 
@@ -137,8 +134,8 @@
 
         private void InitializeOnlineRepository()
         {
-            var repo = new OnlineRepository();
-            Locator.Register<OnlineRepository>(repo);
+            var repo = new StickyNotesOnlineRepository();
+            Locator.Register<StickyNotesOnlineRepository>(repo);
         }
 
         private void InitialiseLocalRepository()
@@ -159,7 +156,5 @@
             var manager = new StickyNotesSettingsManager();
             Locator.Register<StickyNotesSettingsManager>(manager);
         }
-
-        #endregion
     }
 }

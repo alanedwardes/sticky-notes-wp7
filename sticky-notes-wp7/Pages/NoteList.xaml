@@ -1,4 +1,4 @@
-﻿<pages:BaseStickyNotesPage
+﻿<pages:BasePage
     xmlns:pages="clr-namespace:StickyNotes.Pages"
     x:Class="StickyNotes.NoteList"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,49 +7,55 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:bar="clr-namespace:BindableApplicationBar;assembly=BindableApplicationBar"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" d:DesignHeight="696" d:DesignWidth="480">
 
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator IsIndeterminate="True" Text="Loading notes in board..." IsVisible="{Binding OnlineRepository.IsLoading}"/>
+        <shell:ProgressIndicator IsIndeterminate="True" Text="Loading notes in board..." IsVisible="{Binding OnlineRepository.IsLoading}" />
     </shell:SystemTray.ProgressIndicator>
 
-    <phone:PhoneApplicationPage.ApplicationBar>
+    <pages:BasePage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
             <shell:ApplicationBarIconButton
                 x:Name="AddButton"
                 IconUri="/Assets/AddIcon.png"
                 Click="AddButton_Click"
-                Text="add note"/>
+                Text="add note" />
             <shell:ApplicationBarIconButton
                 x:Name="BoardsButton"
                 IconUri="/Assets/BoardsIcon.png"
                 Click="BoardsButton_Click"
-                Text="Boards"/>
+                Text="Boards" />
             <shell:ApplicationBarIconButton
                 x:Name="SettingsButton"
                 IconUri="/Assets/SettingsIcon.png"
                 Click="SettingsButton_Click"
-                Text="settings"/>
+                Text="settings" />
+            <shell:ApplicationBarIconButton
+                x:Name="InviteButton"
+                IconUri="/Assets/BoardIcon.png"
+                Click="InviteButton_Click"
+                Text="invite user" />
         </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
+    </pages:BasePage.ApplicationBar>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource SNBackgroundBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="STICKY NOTES" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="{Binding PageTitle}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="STICKY NOTES" Style="{StaticResource PhoneTextNormalStyle}" />
+            <TextBlock Text="{Binding PageTitle}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" />
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -63,8 +69,8 @@
             VerticalAlignment="Center"
             Text="Search notes..."
             IsEnabled="{Binding OnlineRepository.HasLoaded}"
-            Grid.Row="1"/>
-        
+            Grid.Row="1" />
+
         <ListBox HorizontalContentAlignment="Stretch"
                  HorizontalAlignment="Stretch"
                  Foreground="Black"
@@ -83,16 +89,16 @@
                             <StackPanel Margin="12" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Center"
                                     Foreground="White"
-                                    Text="{Binding Path=Created, StringFormat='{}{0:MMM}'}"/>
+                                    Text="{Binding Path=Created, StringFormat='{}{0:MMM}'}" />
                                 <TextBlock HorizontalAlignment="Center"
                                     Foreground="White"
-                                    Text="{Binding Path=Created, StringFormat='{}{0:dd}'}"/>
+                                    Text="{Binding Path=Created, StringFormat='{}{0:dd}'}" />
                             </StackPanel>
                             <TextBlock Margin="12" Grid.Column="1"
                                 VerticalAlignment="Center"
                                 Foreground="White"
                                 FontSize="{StaticResource PhoneFontSizeExtraLarge}"
-                                Text="{Binding Path=Created, StringFormat='{}{0:HH:mm}'}"/>
+                                Text="{Binding Path=Created, StringFormat='{}{0:HH:mm}'}" />
                         </Grid>
                         <Border Background="{StaticResource SNNoteBackgroundBrush}">
                             <TextBlock
@@ -102,7 +108,7 @@
                                 Padding="12"
                                 TextWrapping="Wrap"
                                 Text="{Binding Body}"
-                                FontSize="{Binding ElementName=noteList, Path=DataContext.SettingsManager.TextSize}"/>
+                                FontSize="{Binding ElementName=noteList, Path=DataContext.SettingsManager.TextSize}" />
                         </Border>
                     </StackPanel>
                 </DataTemplate>
@@ -114,5 +120,4 @@
             </ListBox.ItemContainerStyle>
         </ListBox>
     </Grid>
-
-</pages:BaseStickyNotesPage>
+</pages:BasePage>

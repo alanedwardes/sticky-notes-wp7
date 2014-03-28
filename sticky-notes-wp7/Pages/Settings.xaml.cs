@@ -1,8 +1,12 @@
 ﻿namespace StickyNotes.Pages
 {
+    using System;
     using System.Windows;
 
-    public partial class Settings : BaseStickyNotesPage
+    /// <summary>
+    /// Provides view code for the Settings page.
+    /// </summary>
+    public partial class Settings : BasePage
     {
         public Settings()
         {
@@ -11,6 +15,7 @@
         }
 
         private bool isLoggedIn;
+
         public bool IsLoggedIn
         {
             get { return isLoggedIn; }
@@ -41,6 +46,16 @@
                 this.SettingsManager.SessionToken = null;
                 this.IsLoggedIn = false;
             }
+        }
+
+        private void EditAccount_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/EditUser.xaml", UriKind.Relative));
+        }
+
+        private void EditPassword_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/EditPassword.xaml", UriKind.Relative));
         }
     }
 }

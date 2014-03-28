@@ -2,12 +2,16 @@
 {
     using System.ComponentModel;
 
-    public class StickyNotesSettingsManager: INotifyPropertyChanged
+    /// <summary>
+    /// The specific sticky notes settings manager.
+    /// </summary>
+    public class StickyNotesSettingsManager : INotifyPropertyChanged
     {
         private const string SESSION_TOKEN = "session_token";
         private const string TEXT_SIZE = "text_size";
 
         public double MinTextSize { get { return 30d; } }
+
         public double MaxTextSize { get { return 50d; } }
 
         public double TextSize
@@ -47,6 +51,7 @@
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)

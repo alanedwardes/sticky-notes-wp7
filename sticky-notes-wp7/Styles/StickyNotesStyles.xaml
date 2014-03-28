@@ -3,7 +3,7 @@
     <Color x:Key="SNForegroundColour">#FF000000</Color>
     <Color x:Key="SNBackgroundColour">#FF33B5E5</Color>
     <Color x:Key="SNTranslucentWhileColour">#66EEEEEE</Color>
-    <SolidColorBrush x:Key="SNBackgroundBrush" Color="{StaticResource SNBackgroundColour}"/>
+    <SolidColorBrush x:Key="SNBackgroundBrush" Color="{StaticResource SNBackgroundColour}" />
     <SolidColorBrush x:Key="SNNoteBackgroundBrush" Color="White"></SolidColorBrush>
     <SolidColorBrush x:Key="SNTranslucentBackgroundBrush" Color="{StaticResource SNTranslucentWhileColour}"></SolidColorBrush>
 </ResourceDictionary>

@@ -3,6 +3,9 @@
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// A basic service locator.
+    /// </summary>
     public static class Locator
     {
         private static readonly Dictionary<Type, object> Services = new Dictionary<Type, object>();

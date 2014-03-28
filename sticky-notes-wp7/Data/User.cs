@@ -1,11 +1,14 @@
 ﻿namespace StickyNotes.Data
 {
-    using System.Data.Linq.Mapping;
     using System.ComponentModel;
 
+    /// <summary>
+    /// User object with component model events.
+    /// </summary>
     public class User : INotifyPropertyChanged
     {
         private string firstName;
+
         public string FirstName
         {
             get { return firstName; }
@@ -17,6 +20,7 @@
         }
 
         private string surname;
+
         public string Surname
         {
             get { return surname; }
@@ -28,6 +32,7 @@
         }
 
         private string email;
+
         public string Email
         {
             get { return email; }
@@ -39,6 +44,7 @@
         }
 
         private string password;
+
         public string Password
         {
             get { return password; }
@@ -50,6 +56,7 @@
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)

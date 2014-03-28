@@ -7,17 +7,15 @@
     using System.Windows.Navigation;
     using StickyNotes.Data;
     using StickyNotes.Pages;
+    using StickyNotes.Services;
 
-    public partial class NoteList : BaseStickyNotesPage
+    /// <summary>
+    /// Provides view code for the Note List page.
+    /// </summary>
+    public partial class NoteList : BasePage
     {
-        private bool isLoadingData;
-        public bool IsLoadingData
-        {
-            get { return this.isLoadingData; }
-            set { this.isLoadingData = value; NotifyPropertyChanged("IsLoadingData"); }
-        }
-
         private string pageTitle;
+
         public string PageTitle
         {
             get { return this.pageTitle; }
@@ -25,10 +23,23 @@
         }
 
         private ObservableCollection<Note> notes;
+
         public ObservableCollection<Note> Notes
         {
             get { return notes; }
             set { notes = value; NotifyPropertyChanged("Notes"); }
+        }
+
+        private bool isFilterBoard;
+        public bool IsShowingBoard
+        {
+            get { return this.isFilterBoard; }
+            set { isFilterBoard = value; NotifyPropertyChanged("IsFilterBoard"); NotifyPropertyChanged("InviteVisibility"); }
+        }
+
+        public Visibility InviteVisibility
+        {
+            get { return this.IsShowingBoard ? Visibility.Visible : Visibility.Collapsed; }
         }
 
         private Board filterBoard;
@@ -49,28 +60,36 @@
                 this.filterBoard = this.LocalRepository.GetBoard(int.Parse(boardId));
 
                 // Refresh notes
-                this.OnlineRepository.NotesList(this.SettingsManager.SessionToken, this.filterBoard.Id, (notesResponse) => {
-                    if (notesResponse.WasSuccessful())
-                    {
-                        var notesToDelete = this.LocalRepository.GetNote().Where(n => n.BoardId == this.filterBoard.Id).ToList();
-                        this.LocalRepository.ClearNote(notesToDelete);
-
-                        foreach (var note in notesResponse.data.notes)
-                        {
-                            this.LocalRepository.StoreNote(note);
-                        }
-
-                        this.LocalRepository.Commit();
-                        this.RefreshNotes();
-                    }
-                });
+                this.IsShowingBoard = true;
+                this.DownloadNotes();
             }
             else
             {
+                this.IsShowingBoard = false;
                 this.filterBoard = null;
             }
 
             this.RefreshNotes();
+        }
+
+        private void DownloadNotes()
+        {
+            this.OnlineRepository.NotesList(this.SettingsManager.SessionToken, this.filterBoard.Id, (notesResponse) =>
+            {
+                if (notesResponse.WasSuccessful())
+                {
+                    var notesToDelete = this.LocalRepository.GetNote().Where(n => n.BoardId == this.filterBoard.Id).ToList();
+                    this.LocalRepository.ClearNote(notesToDelete);
+
+                    foreach (var note in notesResponse.data.notes)
+                    {
+                        this.LocalRepository.StoreNote(note);
+                    }
+
+                    this.LocalRepository.Commit();
+                    this.RefreshNotes();
+                }
+            });
         }
 
         private void RefreshNotes(string query = "")
@@ -132,9 +151,24 @@
 
             if (result == MessageBoxResult.OK)
             {
-                this.LocalRepository.ClearNote(note);
-                this.LocalRepository.Commit();
-                this.RefreshNotes();
+                if (note.BoardId > 0)
+                {
+                    this.OnlineRepository.NotesDelete(SettingsManager.SessionToken, note, (response) =>
+                    {
+                        if (!response.WasSuccessful())
+                        {
+                            MessageBox.Show("Unable to remove note from board. It may have already been removed.", "Error", MessageBoxButton.OK);
+                        }
+
+                        this.DownloadNotes();
+                    });
+                }
+                else
+                {
+                    this.LocalRepository.ClearNote(note);
+                    this.LocalRepository.Commit();
+                    this.RefreshNotes();
+                }
             }
         }
 
@@ -158,6 +192,14 @@
         private void SettingsButton_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Pages/Settings.xaml", UriKind.Relative));
+        }
+
+        private void InviteButton_Click(object sender, EventArgs e)
+        {
+            if (filterBoard != null)
+            {
+                NavigationService.Navigate(new Uri("/Pages/InviteUser.xaml?boardId=" + this.filterBoard.Id, UriKind.Relative));
+            }
         }
     }
 }

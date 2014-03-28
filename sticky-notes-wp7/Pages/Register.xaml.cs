@@ -3,9 +3,11 @@
     using System;
     using System.Windows;
     using StickyNotes.Data;
-    using Microsoft.Phone.Controls;
 
-    public partial class Register : BaseStickyNotesPage
+    /// <summary>
+    /// Provides view code for the Register page.
+    /// </summary>
+    public partial class Register : BasePage
     {
         public Register()
         {
@@ -14,6 +16,7 @@
         }
 
         private string currentAction;
+
         public string CurrentAction
         {
             get { return currentAction; }
@@ -25,6 +28,7 @@
         }
 
         private User newUser;
+
         public User NewUser
         {
             get { return newUser; }
@@ -42,12 +46,14 @@
         {
             this.CurrentAction = "Registering user...";
 
-            this.OnlineRepository.UserSave(NewUser, (userSaveResponse) => {
+            this.OnlineRepository.UserSave(NewUser, (userSaveResponse) =>
+            {
                 if (userSaveResponse.WasSuccessful())
                 {
                     this.CurrentAction = "Logging in...";
 
-                    this.OnlineRepository.UserLogin(NewUser, (userLoginResponse) => {
+                    this.OnlineRepository.UserLogin(NewUser, (userLoginResponse) =>
+                    {
                         if (userLoginResponse.WasSuccessful())
                         {
                             this.SettingsManager.SessionToken = userLoginResponse.data.session.id;

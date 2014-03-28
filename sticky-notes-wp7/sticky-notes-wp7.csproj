@@ -75,12 +75,18 @@
     <Compile Include="Pages\AddNote.xaml.cs">
       <DependentUpon>AddNote.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\BaseStickyNotesPage.cs" />
+    <Compile Include="Pages\BasePage.cs" />
     <Compile Include="Pages\BoardList.xaml.cs">
       <DependentUpon>BoardList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\EditPassword.xaml.cs">
+      <DependentUpon>EditPassword.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\EditUser.xaml.cs">
       <DependentUpon>EditUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\InviteUser.xaml.cs">
+      <DependentUpon>InviteUser.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -100,7 +106,9 @@
     <Compile Include="Services\Locator.cs" />
     <Compile Include="Services\OnlineRepository.cs" />
     <Compile Include="Services\SettingsManager.cs" />
+    <Compile Include="Services\StickyNotesOnlineRepository.cs" />
     <Compile Include="Services\StickyNotesSettingsManager.cs" />
+    <Compile Include="Services\WebClientWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -119,9 +127,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\EditPassword.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\EditUser.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\InviteUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Login.xaml">
       <Generator>MSBuild:Compile</Generator>

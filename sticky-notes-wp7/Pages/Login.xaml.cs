@@ -7,7 +7,10 @@
     using StickyNotes.Pages;
     using StickyNotes.Services;
 
-    public partial class Login : BaseStickyNotesPage
+    /// <summary>
+    /// Provides view code for the Login page.
+    /// </summary>
+    public partial class Login : BasePage
     {
         private string redirectUri;
 
@@ -19,7 +22,8 @@
 
         private void LogonButton_Click(object sender, RoutedEventArgs e)
         {
-            this.OnlineRepository.UserLogin(this.username.Text, this.password.Password, (response) => {
+            this.OnlineRepository.UserLogin(this.username.Text, this.password.Password, (response) =>
+            {
                 if (response.WasSuccessful())
                 {
                     SaveUserTokenFromLoginResponse(response);
@@ -47,20 +51,21 @@
             }
         }
 
-        private void ShowMessageBasedOnResponseCode(System.Net.HttpStatusCode code)
+        private void ShowMessageBasedOnResponseCode(HttpStatusCode code)
         {
             switch (code)
             {
                 case HttpStatusCode.Forbidden:
                     MessageBox.Show("Invalid username or password.", "Incorrect Credentials", MessageBoxButton.OK);
                     break;
+
                 default:
                     MessageBox.Show("An error occurred whilst logging in. Please try again.", "Login Error", MessageBoxButton.OK);
                     break;
             }
         }
 
-        private void SaveUserTokenFromLoginResponse(OnlineRepository.RepositoryResponse<OnlineRepository.UserLoginResponse> response)
+        private void SaveUserTokenFromLoginResponse(OnlineRepository.RepositoryResponse<StickyNotesOnlineRepository.UserLoginResponse> response)
         {
             this.SettingsManager.SessionToken = response.data.session.id;
 

@@ -4,10 +4,14 @@
     using System.ComponentModel;
     using System.Data.Linq.Mapping;
 
+    /// <summary>
+    /// Provides storage for Note objects, with component model events.
+    /// </summary>
     [Table]
     public class Note : INotifyPropertyChanged
     {
         private int localStorageId;
+
         [Column(IsPrimaryKey = true,
             IsDbGenerated = true,
             DbType = "INT NOT NULL Identity",
@@ -20,6 +24,7 @@
         }
 
         private int id;
+
         [Column(DbType = "INT")]
         public int Id
         {
@@ -28,6 +33,7 @@
         }
 
         private int boardId;
+
         [Column(DbType = "INT")]
         public int BoardId
         {
@@ -36,6 +42,7 @@
         }
 
         private string title;
+
         [Column(DbType = "NVarChar(255) NULL", CanBeNull = true)]
         public string Title
         {
@@ -44,6 +51,7 @@
         }
 
         private string body;
+
         [Column(DbType = "NVarChar(1024) NOT NULL", CanBeNull = false)]
         public string Body
         {
@@ -52,6 +60,7 @@
         }
 
         private DateTime created;
+
         [Column(DbType = "DATETIME")]
         public DateTime Created
         {
@@ -60,6 +69,7 @@
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)

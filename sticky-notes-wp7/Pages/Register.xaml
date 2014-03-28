@@ -1,4 +1,4 @@
-﻿<pages:BaseStickyNotesPage
+﻿<pages:BasePage
     xmlns:pages="clr-namespace:StickyNotes.Pages"
     x:Class="StickyNotes.Pages.Register"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -10,81 +10,84 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    mc:Ignorable="d"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="768" d:DesignWidth="480">
 
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator IsIndeterminate="True" Text="{Binding CurrentAction}" IsVisible="{Binding OnlineRepository.IsLoading}"/>
+        <shell:ProgressIndicator IsIndeterminate="True" Text="{Binding CurrentAction}" IsVisible="{Binding OnlineRepository.IsLoading}" />
     </shell:SystemTray.ProgressIndicator>
 
     <Grid x:Name="LayoutRoot" Background="{StaticResource SNBackgroundBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="STICKY NOTES" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="register" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock x:Name="ApplicationTitle" Text="STICKY NOTES" Style="{StaticResource PhoneTextNormalStyle}" />
+            <TextBlock x:Name="PageTitle" Text="register" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" />
         </StackPanel>
 
         <ScrollViewer Grid.Row="1" Margin="24, 12">
             <Grid x:Name="ContentPanel">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <TextBlock
                     FontSize="{Binding SettingsManager.CaptionTextSize}"
                     Margin="12,4"
                     Grid.Row="0"
-                    Text="first name"/>
+                    Text="first name" />
                 <TextBox
                     FontSize="{Binding SettingsManager.CaptionTextSize}"
                     IsEnabled="{Binding OnlineRepository.HasLoaded}"
                     Grid.Row="1"
                     TabIndex="0"
-                    Text="{Binding NewUser.FirstName, Mode=TwoWay}"/>
+                    Text="{Binding NewUser.FirstName, Mode=TwoWay}" />
                 <TextBlock
                     FontSize="{Binding SettingsManager.CaptionTextSize}"
                     Margin="12,4"
                     Grid.Row="2"
-                    Text="surname"/>
+                    Text="surname" />
                 <TextBox
                     FontSize="{Binding SettingsManager.CaptionTextSize}"
                     IsEnabled="{Binding OnlineRepository.HasLoaded}"
                     Grid.Row="3"
                     TabIndex="1"
-                    Text="{Binding NewUser.Surname, Mode=TwoWay}"/>
+                    Text="{Binding NewUser.Surname, Mode=TwoWay}" />
                 <TextBlock
                     FontSize="{Binding SettingsManager.CaptionTextSize}"
                     Margin="12,4"
                     Grid.Row="4"
-                    Text="email"/>
+                    Text="email" />
                 <TextBox
                     FontSize="{Binding SettingsManager.CaptionTextSize}"
                     IsEnabled="{Binding OnlineRepository.HasLoaded}"
                     Grid.Row="5"
                     TabIndex="2"
-                    Text="{Binding NewUser.Email, Mode=TwoWay}"/>
+                    Text="{Binding NewUser.Email, Mode=TwoWay}" />
                 <TextBlock
                     FontSize="{Binding SettingsManager.CaptionTextSize}"
                     Margin="12,4"
                     Grid.Row="6"
-                    Text="password"/>
+                    Text="password" />
                 <PasswordBox
                     IsEnabled="{Binding OnlineRepository.HasLoaded}"
                     FontSize="{Binding SettingsManager.CaptionTextSize}"
                     Grid.Row="7"
                     TabIndex="3"
-                    Password="{Binding NewUser.Password, Mode=TwoWay}"/>
+                    Password="{Binding NewUser.Password, Mode=TwoWay}" />
                 <Button
                     FontSize="{Binding SettingsManager.CaptionTextSize}"
                     IsEnabled="{Binding OnlineRepository.HasLoaded}"
@@ -95,5 +98,4 @@
             </Grid>
         </ScrollViewer>
     </Grid>
-
-</pages:BaseStickyNotesPage>
+</pages:BasePage>

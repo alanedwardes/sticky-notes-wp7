@@ -2,15 +2,20 @@
 {
     using System;
     using System.Linq;
+    using System.Net;
     using System.Windows;
-    using System.Windows.Navigation;
     using System.Windows.Input;
+    using System.Windows.Navigation;
     using StickyNotes.Data;
     using StickyNotes.Pages;
 
-    public partial class AddNote : BaseStickyNotesPage
+    /// <summary>
+    /// Provides view code for the Add Note page.
+    /// </summary>
+    public partial class AddNote : BasePage
     {
         private Note currentNote;
+
         public Note CurrentNote
         {
             get { return currentNote; }
@@ -35,7 +40,7 @@
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e); 
+            base.OnNavigatedTo(e);
             string noteId;
             if (NavigationContext.QueryString.TryGetValue("noteId", out noteId))
             {
@@ -75,9 +80,9 @@
 
                 if (this.currentBoard != null)
                 {
-                    this.OnlineRepository.NotesSave(this.SettingsManager.SessionToken, this.currentNote, this.currentBoard.Id, (reaponse) =>
+                    this.OnlineRepository.NotesSave(this.SettingsManager.SessionToken, this.currentNote, this.currentBoard.Id, (response) =>
                     {
-                        if (reaponse.WasSuccessful())
+                        if (response.code == HttpStatusCode.Created)
                         {
                             NavigationService.Navigate(new Uri(string.Format("/Pages/NoteList.xaml?boardId={0}", this.currentBoard.Id), UriKind.Relative));
                         }

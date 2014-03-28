@@ -2,7 +2,10 @@
 {
     using System.IO.IsolatedStorage;
 
-    public static class SettingsManager
+    /// <summary>
+    /// A generic settings manager.
+    /// </summary>
+    public abstract class SettingsManager
     {
         private static IsolatedStorageSettings GetIsolatedStorageSettings()
         {
