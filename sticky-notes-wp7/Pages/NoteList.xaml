@@ -22,22 +22,18 @@
     <pages:BasePage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
             <shell:ApplicationBarIconButton
-                x:Name="AddButton"
                 IconUri="/Assets/AddIcon.png"
                 Click="AddButton_Click"
                 Text="add note" />
             <shell:ApplicationBarIconButton
-                x:Name="BoardsButton"
                 IconUri="/Assets/BoardsIcon.png"
                 Click="BoardsButton_Click"
                 Text="Boards" />
             <shell:ApplicationBarIconButton
-                x:Name="SettingsButton"
                 IconUri="/Assets/SettingsIcon.png"
                 Click="SettingsButton_Click"
                 Text="settings" />
             <shell:ApplicationBarIconButton
-                x:Name="InviteButton"
                 IconUri="/Assets/BoardIcon.png"
                 Click="InviteButton_Click"
                 Text="invite user" />

@@ -11,6 +11,9 @@
     {
         private int localStorageId;
 
+        /// <summary>
+        /// A local primary key for the note.
+        /// </summary>
         [Column(IsPrimaryKey = true,
             IsDbGenerated = true,
             DbType = "INT NOT NULL Identity",
@@ -24,6 +27,9 @@
 
         private int id;
 
+        /// <summary>
+        /// The online id for the note.
+        /// </summary>
         [Column(DbType = "INT")]
         public int Id
         {

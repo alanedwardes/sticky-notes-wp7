@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Windows;
     using System.Windows.Navigation;
+    using Microsoft.Phone.Shell;
     using StickyNotes.Data;
     using StickyNotes.Pages;
     using StickyNotes.Services;
@@ -30,18 +31,6 @@
             set { notes = value; NotifyPropertyChanged("Notes"); }
         }
 
-        private bool isFilterBoard;
-        public bool IsShowingBoard
-        {
-            get { return this.isFilterBoard; }
-            set { isFilterBoard = value; NotifyPropertyChanged("IsFilterBoard"); NotifyPropertyChanged("InviteVisibility"); }
-        }
-
-        public Visibility InviteVisibility
-        {
-            get { return this.IsShowingBoard ? Visibility.Visible : Visibility.Collapsed; }
-        }
-
         private Board filterBoard;
 
         public NoteList()
@@ -54,18 +43,21 @@
         {
             base.OnNavigatedTo(e);
 
+            var control = this.ApplicationBar.Buttons[this.ApplicationBar.Buttons.Count - 1];
+            var lastButton = control as ApplicationBarIconButton;
+
             string boardId;
             if (NavigationContext.QueryString.TryGetValue("boardId", out boardId))
             {
                 this.filterBoard = this.LocalRepository.GetBoard(int.Parse(boardId));
 
                 // Refresh notes
-                this.IsShowingBoard = true;
+                lastButton.IsEnabled = true;
                 this.DownloadNotes();
             }
             else
             {
-                this.IsShowingBoard = false;
+                lastButton.IsEnabled = false;
                 this.filterBoard = null;
             }
 
