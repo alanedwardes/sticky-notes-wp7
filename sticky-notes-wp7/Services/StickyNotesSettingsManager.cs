@@ -29,12 +29,14 @@
             }
         }
 
+        public double SmallCaptionTextSize
+        {
+            get { return TextSize * 0.5d; }
+        }
+
         public double CaptionTextSize
         {
-            get
-            {
-                return TextSize * 0.75d;
-            }
+            get { return TextSize * 0.75d; }
         }
 
         public string SessionToken

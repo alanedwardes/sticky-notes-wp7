@@ -75,7 +75,7 @@
 
             if (result == MessageBoxResult.OK)
             {
-                this.OnlineRepository.BoardsDelete(SettingsManager.SessionToken, board, (response) =>
+                this.OnlineRepository.BoardDelete(SettingsManager.SessionToken, board, (response) =>
                 {
                     if (response.code == System.Net.HttpStatusCode.Forbidden)
                     {
@@ -98,7 +98,7 @@
 
         private void RedownloadBoards()
         {
-            this.OnlineRepository.BoardsList(this.SettingsManager.SessionToken, (boardsResponse) =>
+            this.OnlineRepository.BoardList(this.SettingsManager.SessionToken, (boardsResponse) =>
             {
                 if (boardsResponse.WasSuccessful() && boardsResponse.data.boards != null)
                 {

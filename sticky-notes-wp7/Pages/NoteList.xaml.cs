@@ -66,7 +66,7 @@
 
         private void DownloadNotes()
         {
-            this.OnlineRepository.NotesList(this.SettingsManager.SessionToken, this.filterBoard.Id, (notesResponse) =>
+            this.OnlineRepository.NoteList(this.SettingsManager.SessionToken, this.filterBoard.Id, (notesResponse) =>
             {
                 if (notesResponse.WasSuccessful())
                 {
@@ -145,7 +145,7 @@
             {
                 if (note.BoardId > 0)
                 {
-                    this.OnlineRepository.NotesDelete(SettingsManager.SessionToken, note, (response) =>
+                    this.OnlineRepository.NoteDelete(SettingsManager.SessionToken, note, (response) =>
                     {
                         if (!response.WasSuccessful())
                         {
@@ -190,7 +190,7 @@
         {
             if (filterBoard != null)
             {
-                NavigationService.Navigate(new Uri("/Pages/InviteUser.xaml?boardId=" + this.filterBoard.Id, UriKind.Relative));
+                NavigationService.Navigate(new Uri("/Pages/BoardMembers.xaml?boardId=" + this.filterBoard.Id, UriKind.Relative));
             }
         }
     }

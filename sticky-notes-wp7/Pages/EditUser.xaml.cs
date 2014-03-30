@@ -46,7 +46,6 @@
             {
                 if (response.WasSuccessful())
                 {
-                    MessageBox.Show("Account details updated.", "Success", MessageBoxButton.OK);
                     NavigationService.Navigate(new Uri("/Pages/Settings.xaml", UriKind.Relative));
                 }
                 else

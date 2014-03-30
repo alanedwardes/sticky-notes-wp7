@@ -25,6 +25,7 @@
                 public const string Save = "boards/save";
                 public const string Delete = "boards/delete";
                 public const string Invite = "board/addUser";
+                public const string Users = "board/getUsers";
             }
 
             public struct Note
@@ -32,6 +33,7 @@
                 public const string List = "notes/list";
                 public const string Save = "notes/save";
                 public const string Delete = "notes/delete";
+                public const string Edit = "notes/edit";
             }
         }
 
@@ -107,50 +109,50 @@
             }, action);
         }
 
-        public class BoardsListResponse { public List<Board> boards; }
+        public class BoardListResponse { public List<Board> boards; }
 
-        public void BoardsList(string token, Action<RepositoryResponse<BoardsListResponse>> action)
+        public void BoardList(string token, Action<RepositoryResponse<BoardListResponse>> action)
         {
-            this.Post<BoardsListResponse>(API.Board.List, new Dictionary<string, string> {
+            this.Post<BoardListResponse>(API.Board.List, new Dictionary<string, string> {
                 { "token", token }
             }, action);
         }
 
-        public class BoardsDeleteResponse { }
+        public class BoardDeleteResponse { }
 
-        public void BoardsDelete(string token, Board board, Action<RepositoryResponse<BoardsDeleteResponse>> action)
+        public void BoardDelete(string token, Board board, Action<RepositoryResponse<BoardDeleteResponse>> action)
         {
-            this.Post<BoardsDeleteResponse>(API.Board.Delete, new Dictionary<string, string> {
+            this.Post<BoardDeleteResponse>(API.Board.Delete, new Dictionary<string, string> {
                 { "token", token },
                 { "id", board.Id.ToString() }
             }, action);
         }
 
-        public class BoardsSaveResponse : Board { }
+        public class BoardSaveResponse : Board { }
 
-        public void BoardsSave(string token, Board board, Action<RepositoryResponse<BoardsSaveResponse>> action)
+        public void BoardSave(string token, Board board, Action<RepositoryResponse<BoardSaveResponse>> action)
         {
-            this.Post<BoardsSaveResponse>(API.Board.Save, new Dictionary<string, string> {
+            this.Post<BoardSaveResponse>(API.Board.Save, new Dictionary<string, string> {
                 { "token", token },
                 { "name", board.Name }
             }, action);
         }
 
-        public class NotesListResponse { public List<Note> notes; }
+        public class NoteListResponse { public List<Note> notes; }
 
-        public void NotesList(string token, int boardId, Action<RepositoryResponse<NotesListResponse>> action)
+        public void NoteList(string token, int boardId, Action<RepositoryResponse<NoteListResponse>> action)
         {
-            this.Post<NotesListResponse>(API.Note.List, new Dictionary<string, string> {
+            this.Post<NoteListResponse>(API.Note.List, new Dictionary<string, string> {
                 { "token", token },
                 { "boardID", boardId.ToString() }
             }, action);
         }
 
-        public class NotesSaveResponse : Note { }
+        public class NoteSaveResponse : Note { }
 
-        public void NotesSave(string token, Note note, int boardId, Action<RepositoryResponse<NotesSaveResponse>> action)
+        public void NoteSave(string token, Note note, int boardId, Action<RepositoryResponse<NoteSaveResponse>> action)
         {
-            this.Post<NotesSaveResponse>(API.Note.Save, new Dictionary<string, string> {
+            this.Post<NoteSaveResponse>(API.Note.Save, new Dictionary<string, string> {
                 { "token", token },
                 { "title", note.Title },
                 { "body", note.Body },
@@ -158,13 +160,25 @@
             }, action);
         }
 
-        public class NotesDeleteResponse { }
+        public class NoteDeleteResponse { }
 
-        public void NotesDelete(string token, Note note, Action<RepositoryResponse<NotesDeleteResponse>> action)
+        public void NoteDelete(string token, Note note, Action<RepositoryResponse<NoteDeleteResponse>> action)
         {
-            this.Post<NotesDeleteResponse>(API.Note.Delete, new Dictionary<string, string> {
+            this.Post<NoteDeleteResponse>(API.Note.Delete, new Dictionary<string, string> {
                 { "token", token },
                 { "id", note.Id.ToString() },
+            }, action);
+        }
+
+        public class NoteEditResponse { }
+
+        public void NoteEdit(string token, Note note, Action<RepositoryResponse<NoteEditResponse>> action)
+        {
+            this.Post<NoteEditResponse>(API.Note.Edit, new Dictionary<string, string> {
+                { "token", token },
+                { "id", note.Id.ToString() },
+                { "title", note.Title },
+                { "body", note.Body },
             }, action);
         }
 
@@ -176,6 +190,16 @@
                 { "token", token },
                 { "email", email },
                 { "boardID", boardId.ToString() }
+            }, action);
+        }
+
+        public class BoardUsersResponse { public List<User> Users; }
+
+        public void BoardUsers(string token, int boardId, Action<RepositoryResponse<BoardUsersResponse>> action)
+        {
+            this.Post<BoardUsersResponse>(API.Board.Users, new Dictionary<string, string> {
+                { "token", token },
+                { "id", boardId.ToString() }
             }, action);
         }
     }

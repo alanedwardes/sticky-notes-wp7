@@ -40,7 +40,7 @@
             {
                 if (response.code != HttpStatusCode.Created)
                 {
-                    MessageBox.Show("There was an error adding the user to the board. The board may have been deleted, the user may not exist, or the user may already have been added the board.", "Error", MessageBoxButton.OK);
+                    MessageBox.Show("There was an error adding the user to the board. The board may have been deleted, the user may not exist, or the user may already have been added.", "Error", MessageBoxButton.OK);
                 }
                 else
                 {

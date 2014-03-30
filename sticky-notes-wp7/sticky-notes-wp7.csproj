@@ -79,6 +79,9 @@
     <Compile Include="Pages\BoardList.xaml.cs">
       <DependentUpon>BoardList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\BoardMembers.xaml.cs">
+      <DependentUpon>BoardMembers.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\EditPassword.xaml.cs">
       <DependentUpon>EditPassword.xaml</DependentUpon>
     </Compile>
@@ -126,6 +129,10 @@
     <Page Include="Pages\BoardList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\BoardMembers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\EditPassword.xaml">
       <SubType>Designer</SubType>

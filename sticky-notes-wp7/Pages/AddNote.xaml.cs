@@ -80,17 +80,34 @@
 
                 if (this.currentBoard != null)
                 {
-                    this.OnlineRepository.NotesSave(this.SettingsManager.SessionToken, this.currentNote, this.currentBoard.Id, (response) =>
+                    if (this.InEditMode)
                     {
-                        if (response.code == HttpStatusCode.Created)
+                        this.OnlineRepository.NoteEdit(this.SettingsManager.SessionToken, this.currentNote, (response) =>
                         {
-                            NavigationService.Navigate(new Uri(string.Format("/Pages/NoteList.xaml?boardId={0}", this.currentBoard.Id), UriKind.Relative));
-                        }
-                        else
+                            if (response.code == HttpStatusCode.OK)
+                            {
+                                NavigationService.Navigate(new Uri(string.Format("/Pages/NoteList.xaml?boardId={0}", this.currentBoard.Id), UriKind.Relative));
+                            }
+                            else
+                            {
+                                MessageBox.Show("Unable to edit note.", "Error", MessageBoxButton.OK);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        this.OnlineRepository.NoteSave(this.SettingsManager.SessionToken, this.currentNote, this.currentBoard.Id, (response) =>
                         {
-                            MessageBox.Show("Unable to add note to board.", "Error", MessageBoxButton.OK);
-                        }
-                    });
+                            if (response.code == HttpStatusCode.Created)
+                            {
+                                NavigationService.Navigate(new Uri(string.Format("/Pages/NoteList.xaml?boardId={0}", this.currentBoard.Id), UriKind.Relative));
+                            }
+                            else
+                            {
+                                MessageBox.Show("Unable to add note to board.", "Error", MessageBoxButton.OK);
+                            }
+                        });
+                    }
                 }
                 else
                 {

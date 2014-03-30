@@ -32,7 +32,7 @@
 
         private void AddBoardButton_Click(object sender, EventArgs e)
         {
-            this.OnlineRepository.BoardsSave(this.SettingsManager.SessionToken, this.CurrentBoard, (response) =>
+            this.OnlineRepository.BoardSave(this.SettingsManager.SessionToken, this.CurrentBoard, (response) =>
             {
                 if (response.code == HttpStatusCode.Created)
                 {

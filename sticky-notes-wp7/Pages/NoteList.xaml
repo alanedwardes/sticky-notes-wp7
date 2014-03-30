@@ -77,25 +77,24 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"></ColumnDefinition>
-                                <ColumnDefinition Width="5*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Margin="12" Grid.Column="0">
-                                <TextBlock HorizontalAlignment="Center"
-                                    Foreground="White"
-                                    Text="{Binding Path=Created, StringFormat='{}{0:MMM}'}" />
-                                <TextBlock HorizontalAlignment="Center"
-                                    Foreground="White"
-                                    Text="{Binding Path=Created, StringFormat='{}{0:dd}'}" />
-                            </StackPanel>
-                            <TextBlock Margin="12" Grid.Column="1"
+                        <StackPanel Orientation="Horizontal" Margin="0, 4">
+                            <TextBlock TextAlignment="Center"
+                                Margin="12, 0"
                                 VerticalAlignment="Center"
-                                Foreground="White"
-                                FontSize="{StaticResource PhoneFontSizeExtraLarge}"
-                                Text="{Binding Path=Created, StringFormat='{}{0:HH:mm}'}" />
-                        </Grid>
+                                FontSize="{Binding ElementName=noteList, Path=DataContext.SettingsManager.SmallCaptionTextSize}"
+                                Foreground="White">
+                                <Run Text="{Binding Path=Created, StringFormat='{}{0:MMM}'}" />
+                                <LineBreak />
+                                <Run Text="{Binding Path=Created, StringFormat='{}{0:dd}'}" />
+                            </TextBlock>
+                            <TextBlock Grid.Column="1"
+                                VerticalAlignment="Center"
+                                FontSize="{Binding ElementName=noteList, Path=DataContext.SettingsManager.CaptionTextSize}"
+                                Foreground="White">
+                                <Run Text="{Binding Created, StringFormat='{}{0:HH:mm}'}" />
+                                <Run Text="{Binding Title}" />
+                            </TextBlock>
+                        </StackPanel>
                         <Border Background="{StaticResource SNNoteBackgroundBrush}">
                             <TextBlock
                                 Tap="TextBlock_Tap"
